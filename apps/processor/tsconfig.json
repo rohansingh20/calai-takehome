@@ -6,12 +6,15 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "allowJs": true,        // Allow JavaScript files to be compiled
+    "checkJs": false,       // Optional: Disable type checking for JS files (if needed)
+    "noImplicitAny": false,  // Optional: Disable error on implicit any types
     "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": "src",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"], 
   "exclude": ["node_modules", "dist"]
 }
 
