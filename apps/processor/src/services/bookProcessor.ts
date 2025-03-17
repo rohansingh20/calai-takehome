@@ -388,10 +388,8 @@ export async function extractBookScreenshots(bookId, bookIsFiction) {
         try {
           if (buttonHandle) {
             await buttonHandle.click();
-            console.log('Clicked buttonHandle next page button');
           } else {
             await page.click(buttonSelector);
-            console.log('Clicked page.click next page button');
           }
         } catch (error) {
           console.log('Could not click next page button, possibly end of preview');
@@ -404,10 +402,8 @@ export async function extractBookScreenshots(bookId, bookIsFiction) {
           try {
             if (buttonHandle) {
               await buttonHandle.click();
-              console.log('Clicked buttonHandle next page button');
             } else {
               await page.click(buttonSelector);
-              console.log('Clicked page.click next page button');
             }
           } catch (error) {
             console.log('Could not click next page button, possibly end of preview');
