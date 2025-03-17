@@ -277,7 +277,7 @@ export async function extractBookScreenshots(bookId, bookIsFiction) {
   try {
     // Determine environment (production or development)
     const isProd = process.env.NODE_ENV === 'production';
-    let browserConfig = {};
+    let browserConfig: any = {};
 
     if (isProd) {
       console.log("Running in production environment (Vercel)");
@@ -285,11 +285,11 @@ export async function extractBookScreenshots(bookId, bookIsFiction) {
         // For Vercel/serverless environment
         const chromium = await import('chrome-aws-lambda');
         browserConfig = {
-          args: [...chromium.args, '--disable-web-security'],
-          executablePath: await chromium.executablePath,
-          headless: chromium.headless,
+          args: [...chromium.default.args, '--disable-web-security'],
+          executablePath: await chromium.default.executablePath,
+          headless: chromium.default.headless,
         };
-        console.log("Using chrome-aws-lambda with executable path:", browserConfig.executablePath);
+        console.log("Using chrome-aws-lambda with executable path:", browserConfig.default.executablePath);
       } catch (error) {
         console.error("Error importing chrome-aws-lambda:", error);
         console.log("Falling back to default browser launch options");
@@ -304,6 +304,7 @@ export async function extractBookScreenshots(bookId, bookIsFiction) {
       // Try to locate Chrome/browser executable
       try {
         const executablePath = await getChromePath();
+        
         console.log(`Using Chrome at: ${executablePath}`);
         browserConfig = {
           headless: 'new',
@@ -311,14 +312,14 @@ export async function extractBookScreenshots(bookId, bookIsFiction) {
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
         };
       } catch (error) {
-        console.warn("Chrome executable path not found:", error.message);
+        console.warn("Chrome executable path not found:");
         console.log("Falling back to puppeteer's bundled Chromium");
         
         // Try using puppeteer's bundled Chrome
         try {
           const puppeteerFull = await import('puppeteer');
           browser = await puppeteerFull.default.launch({
-            headless: 'new',
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
           });
         } catch (puppeteerError) {
